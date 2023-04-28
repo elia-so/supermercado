@@ -5,13 +5,14 @@ public class Cliente extends Pessoa{
 	private String nome;
 	private int senha;
 	private double saldo;
+	private int cpf;
 
 // GETTERS E SETTERS
 	public String getNome() {
 		return nome;
 	}
 
-	public void setCpf(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
@@ -29,3 +30,12 @@ public class Cliente extends Pessoa{
 	public void setSenha(int senha) {
 		this.senha = senha;
 	}
+
+	public int getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(int cpf) {
+		this.cpf = cpf;
+	}
+}
