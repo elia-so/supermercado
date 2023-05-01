@@ -1,18 +1,20 @@
 package Entidade;
+import java.util.ArrayList;
+
+import Servicos.Compra;
 
 //CLASSE HERDA AS VARIAVEIS DE PESSOA
 public class Cliente extends Pessoa{
 	private double saldo;
 	private String cpf;
 
-	
 	//método que herda os dados da classe mãe
 	public Cliente(String nome, String senha, String Email, double saldo, String cpf) {
 		super(nome, senha, Email);
 		this.setSaldo(saldo);
 		this.setCpf(cpf);
 	}
-	
+
 // GETTERS E SETTERS
 
 	public double getSaldo() {

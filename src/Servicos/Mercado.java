@@ -1,5 +1,6 @@
 package Servicos;
 import br.*;
+
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -11,12 +12,13 @@ public class Mercado {
 	private List<Cliente> clientes;
 	private List<Vendedor> vendedores;
 	private List<Produto> produtos;
-	
+	private List<Compra> compras;
 	//CONSTRUTOR DA CLASSE QUE RECEBE A LISTA DE CLIENTES
-	public Mercado(List<Cliente> clientes, List<Vendedor> vendedores, List<Produto> produtos) {
+	public Mercado(List<Cliente> clientes, List<Vendedor> vendedores, List<Produto> produtos, List<Compra> compras) {
 		this.clientes = clientes;
 		this.vendedores = vendedores;
 		this.produtos = produtos;
+		this.compras = compras;
 	}
 	
 	//CADASTRAR CLIENTES
@@ -111,6 +113,17 @@ public class Mercado {
         }
         return false;
     }
+	// VERIFICA SE OS PARAMETROS SAO IGUAIS AO DO ARRAYLIST
+	public static boolean autenticarProduto(String nome, String marca, int quantidade, List<Produto> produtos) {
+        for (Produto produto : produtos) {
+            if (produto.getNome().equals(nome) && produto.getMarca().equals(marca)) {
+            	int novaquantidade = produto.getQuantidade();
+            	produto.setQuantidade(novaquantidade + quantidade);
+            	return true;
+            }
+        }
+        return false;
+    }
 	
 	//TELA DE LOGIN PRINCIPAL
 	public boolean login() {
@@ -145,6 +158,7 @@ public class Mercado {
 	}
 	
 	// TELA DE LOGIN DO CLIENTE
+	String nomec, senhac;
 	public boolean loginCliente() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Digite seu nome de usuario: ");
@@ -152,12 +166,26 @@ public class Mercado {
         System.out.print("Digite sua senha: ");
         String senha = scanner.next();
         if (Mercado.autenticarCliente(nome, senha, clientes)) {
-            System.out.println("Bem-vindo, " + nome + "!");
+            nomec = nome;
+            senhac = senha;
+        	System.out.println("Bem-vindo, " + nome + "!");
             return true;
         } else {
             System.out.println("Nome de usuario ou senha invalidos.");
             return false;
         }
+	}
+	// RETORNA DADOS INDIVIDUALMENTE DO CLIENTE
+	public void dadoCliente(String nome, String senha) {
+		for(Cliente cliente : clientes) {
+			if(cliente.getNome().equals(nome) && cliente.getSenha().equals(senha)) {
+				System.out.printf("CPF: %-13s\n", cliente.getCpf());
+				System.out.printf("Nome: %-13s\n", cliente.getNome());
+				System.out.printf("Email: %-13s\n", cliente.getEmail());
+				System.out.printf("Saldo: %-13s\n", cliente.getSaldo());
+				System.out.printf("Senha: %-13s\n\n", cliente.getSenha());
+			}
+		}
 	}
 	// TELA DE LOGIN DO VENDEDOR
 	public boolean loginVendedor() {
@@ -176,8 +204,57 @@ public class Mercado {
 	}
 	// MENU QUE APARECE PARA O CLIENTE APOS LOGIN
 	void menuCliente() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("[1] Consultar meus dados");
+		System.out.println("[2] Comprar produtos");
+		System.out.println("[3] Comprovante de compra");
+		System.out.println("[4] Consultar produtos");
+		System.out.println("[5] logout");
+		System.out.println("[6] encerrar programa");
+		System.out.println("Selecione qual opcao deseja usar:");
+		String option = scanner.nextLine();
 		
+		switch(option) {
+		case "1":
+			this.dadoCliente(nomec, senhac);;
+			this.menuCliente();
+			break;
+		case "2":
+			compras = this.menuComprar();
+			this.menuCliente();
+			break;
+		case "3":
+			this.listaCompras();
+			this.menuCliente();
+			break;
+		case "4":
+			this.getProdutos();
+			this.menuCliente();
+			break;
+		case "5":
+			System.out.println("sessao finalizada.");
+			this.login();
+			break;
+		case "6":
+			System.out.println("ate logo!");
+			System.exit(0);
+		default:
+			break;
+		}
 	}
+	// IMPRIME A LISTA DE COMPRAS
+	public void listaCompras() {	
+		System.out.println("\t\t\t\tLISTA");
+		System.out.println("+-----------------------------------------------------------------------------------------------+");
+		System.out.println("|\tNOME\t\t|\tMARCA\t\t|\tCOD\t|\tQTD\t|\tPRECO\t|");
+		System.out.println("+-----------------------------------------------------------------------------------------------+");
+		for(int i = 0; i < compras.size(); i++) {
+			Compra p = compras.get(i);
+			System.out.printf("|\t%-13s\t|\t%-13s\t|\t%d\t|\t%d\t|\t%-13s|\n",p.getNome(), p.getMarca(), p.getCodigoProduto(), p.getQuantidade(), p.getPreco());
+		}
+		System.out.println("+-----------------------------------------------------------------------------------------------+");
+	}
+	
 	// MENU QUE APARCE PARA O VENDEDOR APOS O LOGIN
 	void menuVendedor() {
 		Scanner scanner = new Scanner(System.in);
@@ -240,6 +317,7 @@ public class Mercado {
 			break;
 		case "4":
 			System.out.println("Volte sempre");
+			System.exit(0);
 			return false;
 		default:
 			break;
@@ -247,6 +325,27 @@ public class Mercado {
 		return true;
 	}
 
+	public List<Compra> menuComprar() {
+		List<Compra> compras = new ArrayList<>();
+	        
+	    Scanner scanner = new Scanner(System.in);
+	    String resposta = "s";
+	    while(resposta.equalsIgnoreCase("s")) {
+	    	System.out.println("Escolha um produto para comprar:\n");
+	    	for(int i = 0; i < produtos.size(); i++) {
+	    		System.out.println((i+1) + ". " + produtos.get(i).getNome() + " | R$" + produtos.get(i).getPreco());
+	        }
+	    	int opcao = scanner.nextInt();
+	    	Compra compra = new Compra(produtos.get(opcao-1).getNome(), produtos.get(opcao-1).getMarca(), produtos.get(opcao-1).getQuantidade(), produtos.get(opcao-1).getCodigoProduto(), produtos.get(opcao-1).getPreco());
+	    	int qtd = produtos.get(opcao-1).getQuantidade();
+	    	produtos.get(opcao-1).setQuantidade(qtd-1);;
+	    	compras.add(compra);
+	    	System.out.println("Deseja continuar comprando? (S/N)");
+            resposta = scanner.next();
+	    }
+	    return compras;
+	}
+	
 	// MENU DE CADASTRAR PRODUTOS
 	public void Cadastrarproduto() {
 		Scanner scanner = new Scanner(System.in);
@@ -267,16 +366,16 @@ public class Mercado {
 				double preco = scanner.nextInt();
 				
 				int codigoproduto = codproduto.nextInt(100);
-				Produto pr1 = new Produto(nome, marca, quantidade, codigoproduto, preco);
-				
-				if(codigoproduto == pr1.getCodigoProduto()) {
-					pr1.setQuantidade(quantidade+1);
-				}				
-				produtos.add(pr1);
+				if(Mercado.autenticarProduto(nome, marca, quantidade, produtos)) {
+					break;
+				} else {
+					Produto pr1 = new Produto(nome, marca, quantidade, codigoproduto, preco);
+					produtos.add(pr1);
+				}
 				System.out.println("produto cadastrado!");
 				break;
 			case "2":
-				
+				this.menuVendedor();
 				break;
 		}
 	}
@@ -284,15 +383,15 @@ public class Mercado {
 	// CONSULTAR PRODUTOS
 	public void getProdutos() {	
 		System.out.println("\t\t\t\tprodutos");
-		System.out.println("+---------------------------------------------------------------------------------------+");
-		System.out.println("|\tNOME\t\t|\tMARCA\t\t|\tCOD\t|\tPRECO\t\t|");
-		System.out.println("+---------------------------------------------------------------------------------------+");
+		System.out.println("+-----------------------------------------------------------------------------------------------+");
+		System.out.println("|\tNOME\t\t|\tMARCA\t\t|\tCOD\t|\tQTD\t|\tPRECO\t|");
+		System.out.println("+-----------------------------------------------------------------------------------------------+");
 		//List<Produto> produtos = new ArrayList<>();
-		for(int i = 0; i < produtos .size(); i++) {
+		for(int i = 0; i < produtos.size(); i++) {
 			Produto p = produtos.get(i);
-			System.out.printf("|\t%-13s\t|\t%-13s\t|\t%d\t|\t%-13s\t|\n",p.getNome(), p.getMarca(), p.getCodigoProduto(), p.getPreco());
+			System.out.printf("|\t%-13s\t|\t%-13s\t|\t%d\t|\t%d\t|\t%-13s|\n",p.getNome(), p.getMarca(), p.getCodigoProduto(), p.getQuantidade(), p.getPreco());
 		}
-		System.out.println("+---------------------------------------------------------------------------------------+");
+		System.out.println("+-----------------------------------------------------------------------------------------------+");
 	}
 	
 }
