@@ -183,9 +183,10 @@ public class Mercado {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("[1] Consultar clientes");
 		System.out.println("[2] Cadastrar produtos");
-		System.out.println("[3] Fazer venda");
-		System.out.println("[4] logout");
-		System.out.println("[5] encerrar programa");
+		System.out.println("[3] Consultar produtos");
+		System.out.println("[4] Fazer venda");
+		System.out.println("[5] logout");
+		System.out.println("[6] encerrar programa");
 		System.out.println("Selecione qual opcao deseja usar:");
 		String option = scanner.nextLine();
 		
@@ -199,15 +200,20 @@ public class Mercado {
 			this.menuVendedor();
 			break;
 		case "3":
-			
+			this.getProdutos();
+			this.menuVendedor();
 			break;
 		case "4":
+			
+			break;
+		case "5":
 			System.out.println("sessao finalizada.");
 			this.login();
 			break;
-		case "5":
+		case "6":
 			System.out.println("ate logo!");
 			System.exit(0);
+			break;
 		default:
 			break;
 		}
@@ -257,9 +263,11 @@ public class Mercado {
 				String marca = scanner.nextLine();
 				System.out.println("Digite a quantidade:");
 				int quantidade = scanner.nextInt();
+				System.out.println("Digite o preco:");
+				double preco = scanner.nextInt();
 				
 				int codigoproduto = codproduto.nextInt(100);
-				Produto pr1 = new Produto(nome, marca, quantidade, codigoproduto);
+				Produto pr1 = new Produto(nome, marca, quantidade, codigoproduto, preco);
 				
 				if(codigoproduto == pr1.getCodigoProduto()) {
 					pr1.setQuantidade(quantidade+1);
@@ -276,15 +284,15 @@ public class Mercado {
 	// CONSULTAR PRODUTOS
 	public void getProdutos() {	
 		System.out.println("\t\t\t\tprodutos");
-		System.out.println("+-----------------------------------------------------------------------------------------------+");
-		System.out.println("|\tNOME\t\t|\t\tMarca\t|\t\tCodigo\t|");
-		System.out.println("+-----------------------------------------------------------------------------------------------+");
+		System.out.println("+---------------------------------------------------------------------------------------+");
+		System.out.println("|\tNOME\t\t|\tMARCA\t\t|\tCOD\t|\tPRECO\t\t|");
+		System.out.println("+---------------------------------------------------------------------------------------+");
 		//List<Produto> produtos = new ArrayList<>();
 		for(int i = 0; i < produtos .size(); i++) {
 			Produto p = produtos.get(i);
-			System.out.printf("|\t%-13s\t|\t%-13s\t|\t%-13s\t|\n",p.getNome(), p.getMarca(), p.getCodigoProduto());
+			System.out.printf("|\t%-13s\t|\t%-13s\t|\t%d\t|\t%-13s\t|\n",p.getNome(), p.getMarca(), p.getCodigoProduto(), p.getPreco());
 		}
-		System.out.println("+-----------------------------------------------------------------------------------------------+");
+		System.out.println("+---------------------------------------------------------------------------------------+");
 	}
 	
 }
