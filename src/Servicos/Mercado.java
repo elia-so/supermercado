@@ -124,6 +124,16 @@ public class Mercado {
         }
         return false;
     }
+	public static boolean autenticarCompra(String nome, String marca, int quantidade, List<Compra> compras) {
+        for (Compra compra : compras) {
+            if (compra.getNome().equals(nome) && compra.getMarca().equals(marca)) {
+            	int novaquantidade = compra.getQuantidade();
+            	compra.setQuantidade(novaquantidade + quantidade);
+            	return true;
+            }
+        }
+        return false;
+    }
 	
 	//TELA DE LOGIN PRINCIPAL
 	public boolean login() {
@@ -327,19 +337,24 @@ public class Mercado {
 
 	public List<Compra> menuComprar() {
 		List<Compra> compras = new ArrayList<>();
-	        
 	    Scanner scanner = new Scanner(System.in);
 	    String resposta = "s";
 	    while(resposta.equalsIgnoreCase("s")) {
 	    	System.out.println("Escolha um produto para comprar:\n");
 	    	for(int i = 0; i < produtos.size(); i++) {
 	    		System.out.println((i+1) + ". " + produtos.get(i).getNome() + " | R$" + produtos.get(i).getPreco());
-	        }
+	    	}
 	    	int opcao = scanner.nextInt();
-	    	Compra compra = new Compra(produtos.get(opcao-1).getNome(), produtos.get(opcao-1).getMarca(), produtos.get(opcao-1).getQuantidade(), produtos.get(opcao-1).getCodigoProduto(), produtos.get(opcao-1).getPreco());
+	    	
+	    	if(Mercado.autenticarCompra(produtos.get(opcao-1).getNome(), produtos.get(opcao-1).getMarca(), 1, compras)) {
+				
+			} else {
+				Compra compra = new Compra(produtos.get(opcao-1).getNome(), produtos.get(opcao-1).getMarca(), 1, produtos.get(opcao-1).getCodigoProduto(), produtos.get(opcao-1).getPreco());
+				compras.add(compra);
+			}
+	    	
 	    	int qtd = produtos.get(opcao-1).getQuantidade();
-	    	produtos.get(opcao-1).setQuantidade(qtd-1);;
-	    	compras.add(compra);
+	    	produtos.get(opcao-1).setQuantidade(qtd-1);
 	    	System.out.println("Deseja continuar comprando? (S/N)");
             resposta = scanner.next();
 	    }

@@ -13,7 +13,9 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Scanner scanner = new Scanner(System.in);
+		Cliente eli = new Cliente("eli", "123", "elias@gmail.com", 888, "66644433321");
 		List<Cliente> clientes = new ArrayList<>();
+		clientes.add(eli);
 		List<Compra> compras = new ArrayList<>();
 		
 		Vendedor elias = new Vendedor("elias", "123", "elias@gmail.com");
