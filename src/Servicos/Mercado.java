@@ -226,7 +226,7 @@ public class Mercado {
 		
 		switch(option) {
 		case "1":
-			this.dadoCliente(nomec, senhac);;
+			this.dadoCliente(nomec, senhac);
 			this.menuCliente();
 			break;
 		case "2":
@@ -253,6 +253,7 @@ public class Mercado {
 		}
 	}
 	// IMPRIME A LISTA DE COMPRAS
+	double totalCompra = 0;
 	public void listaCompras() {	
 		System.out.println("\t\t\t\tLISTA");
 		System.out.println("+-----------------------------------------------------------------------------------------------+");
@@ -260,9 +261,13 @@ public class Mercado {
 		System.out.println("+-----------------------------------------------------------------------------------------------+");
 		for(int i = 0; i < compras.size(); i++) {
 			Compra p = compras.get(i);
-			System.out.printf("|\t%-13s\t|\t%-13s\t|\t%d\t|\t%d\t|\t%-13s|\n",p.getNome(), p.getMarca(), p.getCodigoProduto(), p.getQuantidade(), p.getPreco());
+			System.out.printf("|\t%-13s\t|\t%-13s\t|\t%d\t|\t%d\t|%-13s|\n",p.getNome(), p.getMarca(), p.getCodigoProduto(), p.getQuantidade(), p.getPreco());
+			totalCompra += (p.getPreco() * p.getQuantidade());
 		}
 		System.out.println("+-----------------------------------------------------------------------------------------------+");
+		System.out.printf("\t\t\t\t\t\t\t\tTOTAL A PAGAR: %.2f\n", totalCompra);
+		System.out.println("+-----------------------------------------------------------------------------------------------+");
+		totalCompra = 0;
 	}
 	
 	// MENU QUE APARCE PARA O VENDEDOR APOS O LOGIN
@@ -358,6 +363,18 @@ public class Mercado {
 	    	System.out.println("Deseja continuar comprando? (S/N)");
             resposta = scanner.next();
 	    }
+	    for(int i = 0; i < compras.size(); i++) {
+			Compra p = compras.get(i);
+			totalCompra += (p.getPreco() * p.getQuantidade());
+		}
+	    double novoSaldo;
+		for(Cliente cliente : clientes) {
+			if(cliente.getNome().equals(nomec) && cliente.getSenha().equals(senhac)) {
+				novoSaldo = cliente.getSaldo();
+				cliente.setSaldo(novoSaldo - totalCompra);
+				totalCompra = 0;
+			}
+		}
 	    return compras;
 	}
 	
