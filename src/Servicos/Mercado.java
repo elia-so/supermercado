@@ -205,12 +205,17 @@ public class Mercado {
         System.out.print("Digite sua senha: ");
         String senha = scanner.next();
         if (Mercado.autenticarFuncionario(nome, senha, vendedores)) {
+            nomec = nome;
+            senhac = senha;
             System.out.println("Bem-vindo, " + nome + "!");
+            nomec = null;
+            senhac = null;
             return true;
         } else {
             System.out.println("Nome de usuario ou senha invalidos.");
             return false;
         }
+    
 	}
 	// MENU QUE APARECE PARA O CLIENTE APOS LOGIN
 	void menuCliente() {
@@ -221,6 +226,8 @@ public class Mercado {
 		System.out.println("[4] Consultar produtos");
 		System.out.println("[5] logout");
 		System.out.println("[6] encerrar programa");
+		System.out.println("[7] editar conta");
+		System.out.println("[8] excluir conta");
 		System.out.println("Selecione qual opcao deseja usar:");
 		String option = scanner.nextLine();
 		
@@ -248,6 +255,14 @@ public class Mercado {
 		case "6":
 			System.out.println("ate logo!");
 			System.exit(0);
+		case "7":
+			this.editarCliente();
+			this.login();
+			break;
+		case "8":
+			this.apagarcliente();
+			this.login();
+			break;
 		default:
 			break;
 		}
@@ -279,6 +294,7 @@ public class Mercado {
 		System.out.println("[4] Fazer venda");
 		System.out.println("[5] logout");
 		System.out.println("[6] encerrar programa");
+		System.out.println("[7] editar vendedor");
 		System.out.println("Selecione qual opcao deseja usar:");
 		String option = scanner.nextLine();
 		
@@ -305,6 +321,10 @@ public class Mercado {
 		case "6":
 			System.out.println("ate logo!");
 			System.exit(0);
+			break;
+		case "7":
+			this.editarVendedor();
+			this.login();
 			break;
 		default:
 			break;
@@ -426,6 +446,86 @@ public class Mercado {
 		System.out.println("+-----------------------------------------------------------------------------------------------+");
 	}
 	
+	public void apagarcliente() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("tem certeza que deseja APAGAR?");
+		System.out.println("Digite sua senha:");
+		String senha = scanner.nextLine();
+		int position = 0;
+		for(int i = 0; i < clientes.size(); i++) {
+			Cliente c1 = clientes.get(i);
+			if(senhac.equals(senha)) {
+			if(c1.getNome().equals(nomec) && c1.getSenha().equals(senhac)) {
+				position = i;
+				clientes.remove(position);
+			}
+		}
+		}
+		
+	}
+	
+	public void editarCliente () {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Digite sua senha pra prosseguir:");
+		String senha = scanner.nextLine();
+		int position = 0;
+		for(int i = 0; i < clientes.size(); i++) {
+			if(clientes.get(i).getSenha().equals(senha)) {
+				position = i;
+				System.out.print("Digite o seu cpf: ");
+				String cpf = scanner.nextLine();
+				
+				System.out.print("Digite o seu nome: ");
+				String nome = scanner.nextLine();
+				
+				System.out.print("Digite o seu email: ");
+				String email = scanner.nextLine();
+				
+				System.out.print("Digite sua senha: ");
+				String senhas  = scanner.nextLine();
+				
+				System.out.print("Digite a quantidade de saldo que deseja adicionar:");
+				double saldo = scanner.nextDouble();
+				double novo_saldo = clientes.get(position).getSaldo();
+				clientes.get(position).setCpf(cpf);
+				clientes.get(position).setEmail(email);
+				clientes.get(position).setNome(nome);
+				clientes.get(position).setSaldo(novo_saldo+saldo);
+				clientes.get(position).setSenha(senhas);
+			} else {
+				System.out.print("senha incorreta! Digite novamente \n");
+				senha = scanner.nextLine();
+			}
+		}
+		}
+		
+		public void editarVendedor() {
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Digite sua senha pra prosseguir:");
+			String senha = scanner.nextLine();
+			int position = 0;
+			for(int i = 0; i < vendedores.size(); i++) {
+				if(vendedores.get(i).getSenha().equals(senha)) {
+					position = i;
+					
+					System.out.print("Digite o seu nome: ");
+					String nome = scanner.nextLine();
+					
+					System.out.print("Digite o seu email: ");
+					String email = scanner.nextLine();
+					
+					System.out.print("Digite sua senha: ");
+					String senhas  = scanner.nextLine();
+					
+					vendedores.get(position).setEmail(email);
+					vendedores.get(position).setNome(nome);
+					vendedores.get(position).setSenha(senhas);
+				} else {
+					System.out.print("senha incorreta!Digite novamente \n");
+					senha = scanner.nextLine();
+				}
+			}
+	}
 }
 
 

@@ -1,4 +1,4 @@
-package Servicos;
+spackage Servicos;
 
 import java.util.List;
 
