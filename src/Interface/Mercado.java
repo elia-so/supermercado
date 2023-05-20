@@ -13,10 +13,25 @@ import java.util.ArrayList;
 
 // CONSTRUTOR DA CLASSE MERCADO
 public class Mercado {
-	private List<Cliente> clientes;
-	private List<Vendedor> vendedores;
+	private static List<Cliente> clientes;
+	private static List<Vendedor> vendedores;
 	private List<Produto> produtos;
 	private List<Compra> compras;
+	
+	public static List<Cliente> getclientes(){
+		return clientes;
+	}
+	
+	public static List<Vendedor> getvendedores(){
+		return vendedores;
+	}
+	
+	public static String getSenhac() {
+		return senhac;
+	}
+	public static String getnomec() {
+		return nomec;
+	}
 	//CONSTRUTOR DA CLASSE QUE RECEBE A LISTA DE CLIENTES
 	public Mercado(List<Cliente> clientes, List<Vendedor> vendedores, List<Produto> produtos, List<Compra> compras) {
 		this.clientes = clientes;
@@ -171,8 +186,9 @@ public class Mercado {
 		return true;
 	}
 	
-	// TELA DE LOGIN DO CLIENTE
-	String nomec, senhac;
+	 // TELA DE LOGIN DO CLIENTE
+	static String nomec;
+	static String senhac;
 	public boolean loginCliente() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Digite seu nome de usuario: ");
@@ -251,11 +267,19 @@ public class Mercado {
 			System.out.println("ate logo!");
 			System.exit(0);
 		case "7":
-			this.editarCliente();
+			for(Cliente cliente : clientes) {
+				if(cliente.getNome().equals(nomec) && cliente.getSenha().equals(senhac)) {
+					cliente.editarDados();
+				}
+			}
 			this.login();
 			break;
 		case "8":
-			this.apagarcliente();
+			for(Cliente cliente : clientes) {
+				if(cliente.getNome().equals(nomec) && cliente.getSenha().equals(senhac)) {
+					cliente.apagarConta();
+				}
+			}
 			this.login();
 			break;
 		default:
@@ -319,7 +343,11 @@ public class Mercado {
 			this.menuVendedor();
 			break;
 		case "6":
-			this.editarVendedor();
+			for(Vendedor vendedor : vendedores) {
+				if(vendedor.getNome().equals(nomec) && vendedor.getSenha().equals(senhac)) {
+					vendedor.editarDados();
+				}
+			}
 			this.login();
 			break;
 		case "7":
@@ -445,87 +473,7 @@ public class Mercado {
 		}
 		System.out.println("+-----------------------------------------------------------------------------------------------+");
 	}
-	
-	public void apagarcliente() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("tem certeza que deseja APAGAR?");
-		System.out.println("Digite sua senha:");
-		String senha = scanner.nextLine();
-		int position = 0;
-		for(int i = 0; i < clientes.size(); i++) {
-			Cliente c1 = clientes.get(i);
-			if(senhac.equals(senha)) {
-			if(c1.getNome().equals(nomec) && c1.getSenha().equals(senhac)) {
-				position = i;
-				clientes.remove(position);
-			}
-		}
-		}
-		
-	}
-	
-	public void editarCliente () {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Digite sua senha pra prosseguir:");
-		String senha = scanner.nextLine();
-		int position = 0;
-		for(int i = 0; i < clientes.size(); i++) {
-			if(clientes.get(i).getSenha().equals(senha)) {
-				position = i;
-				System.out.print("Digite o seu cpf: ");
-				String cpf = scanner.nextLine();
-				
-				System.out.print("Digite o seu nome: ");
-				String nome = scanner.nextLine();
-				
-				System.out.print("Digite o seu email: ");
-				String email = scanner.nextLine();
-				
-				System.out.print("Digite sua senha: ");
-				String senhas  = scanner.nextLine();
-				
-				System.out.print("Digite a quantidade de saldo que deseja adicionar:");
-				double saldo = scanner.nextDouble();
-				double novo_saldo = clientes.get(position).getSaldo();
-				clientes.get(position).setCpf(cpf);
-				clientes.get(position).setEmail(email);
-				clientes.get(position).setNome(nome);
-				clientes.get(position).setSaldo(novo_saldo+saldo);
-				clientes.get(position).setSenha(senhas);
-			} else {
-				System.out.print("senha incorreta! Digite novamente \n");
-				senha = scanner.nextLine();
-			}
-		}
-		}
-		
-		public void editarVendedor() {
-			Scanner scanner = new Scanner(System.in);
-			System.out.println("Digite sua senha pra prosseguir:");
-			String senha = scanner.nextLine();
-			int position = 0;
-			for(int i = 0; i < vendedores.size(); i++) {
-				if(vendedores.get(i).getSenha().equals(senha)) {
-					position = i;
-					
-					System.out.print("Digite o seu nome: ");
-					String nome = scanner.nextLine();
-					
-					System.out.print("Digite o seu email: ");
-					String email = scanner.nextLine();
-					
-					System.out.print("Digite sua senha: ");
-					String senhas  = scanner.nextLine();
-					
-					vendedores.get(position).setEmail(email);
-					vendedores.get(position).setNome(nome);
-					vendedores.get(position).setSenha(senhas);
-				} else {
-					System.out.print("senha incorreta!Digite novamente \n");
-					senha = scanner.nextLine();
-				}
-			}
-	}
+
 }
 
 

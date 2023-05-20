@@ -1,6 +1,8 @@
 package Classe;
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Scanner;
+import Interface.*;
 //CLASSE HERDA AS VARIAVEIS DE PESSOA
 public class Cliente extends Pessoa{
 	private double saldo;
@@ -45,4 +47,58 @@ public class Cliente extends Pessoa{
 		
 	}
 	
+	@Override
+	public void editarDados(){
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Digite sua senha pra prosseguir:");
+		String senha = scanner.nextLine();
+		int position = 0;
+		for(int i = 0; i < Mercado.getclientes().size(); i++) {
+			if(Mercado.getclientes().get(i).getSenha().equals(senha)) {
+				position = i;
+				System.out.print("Digite o seu cpf: ");
+				String cpf = scanner.nextLine();
+				
+				System.out.print("Digite o seu nome: ");
+				String nome = scanner.nextLine();
+				
+				System.out.print("Digite o seu email: ");
+				String email = scanner.nextLine();
+				
+				System.out.print("Digite sua senha: ");
+				String senhas  = scanner.nextLine();
+				
+				System.out.print("Digite a quantidade de saldo que deseja adicionar:");
+				double saldo = scanner.nextDouble();
+				double novo_saldo = Mercado.getclientes().get(position).getSaldo();
+				Mercado.getclientes().get(position).setCpf(cpf);
+				Mercado.getclientes().get(position).setEmail(email);
+				Mercado.getclientes().get(position).setNome(nome);
+				Mercado.getclientes().get(position).setSaldo(novo_saldo+saldo);
+				Mercado.getclientes().get(position).setSenha(senhas);
+			} else {
+				System.out.print("senha incorreta! Digite novamente \n");
+				senha = scanner.nextLine();
+			}
+		}
+		}
+	
+	@Override
+	public void apagarConta() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("tem certeza que deseja APAGAR?");
+		System.out.println("Digite sua senha:");
+		String senha = scanner.nextLine();
+		int position = 0;
+		for(int i = 0; i < Mercado.getclientes().size(); i++) {
+			Cliente c1 = Mercado.getclientes().get(i);
+			if(Mercado.getSenhac().equals(senha)) {
+			if(c1.getNome().equals(Mercado.getnomec()) && c1.getSenha().equals(Mercado.getSenhac())) {
+				position = i;
+				Mercado.getclientes().remove(position);
+			}
+		}
+		}
+		
+	}
 }
