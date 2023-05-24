@@ -39,5 +39,4 @@ public abstract class Pessoa {
 	public abstract void setDados();
 	//public abstract boolean login();
 	public abstract void editarDados();
-	public abstract void apagarConta();
 }

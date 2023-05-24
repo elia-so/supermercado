@@ -82,23 +82,4 @@ public class Cliente extends Pessoa{
 			}
 		}
 		}
-	
-	@Override
-	public void apagarConta() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("tem certeza que deseja APAGAR?");
-		System.out.println("Digite sua senha:");
-		String senha = scanner.nextLine();
-		int position = 0;
-		for(int i = 0; i < Mercado.getclientes().size(); i++) {
-			Cliente c1 = Mercado.getclientes().get(i);
-			if(Mercado.getSenhac().equals(senha)) {
-			if(c1.getNome().equals(Mercado.getnomec()) && c1.getSenha().equals(Mercado.getSenhac())) {
-				position = i;
-				Mercado.getclientes().remove(position);
-			}
-		}
-		}
-		
-	}
 }

@@ -275,11 +275,7 @@ public class Mercado {
 			this.login();
 			break;
 		case "8":
-			for(Cliente cliente : clientes) {
-				if(cliente.getNome().equals(nomec) && cliente.getSenha().equals(senhac)) {
-					cliente.apagarConta();
-				}
-			}
+			this.apagarcliente();
 			this.login();
 			break;
 		default:
@@ -474,6 +470,23 @@ public class Mercado {
 		System.out.println("+-----------------------------------------------------------------------------------------------+");
 	}
 
+
+public void apagarcliente() {
+	Scanner scanner = new Scanner(System.in);
+	System.out.println("tem certeza que deseja APAGAR?");
+	System.out.println("Digite sua senha:");
+	String senha = scanner.nextLine();
+	int position = 0;
+	for(int i = 0; i < clientes.size(); i++) {
+		Cliente c1 = clientes.get(i);
+		if(senhac.equals(senha)) {
+		if(c1.getNome().equals(nomec) && c1.getSenha().equals(senhac)) {
+			position = i;
+			clientes.remove(position);
+		}
+	}
+	}
+}
 }
 
 
