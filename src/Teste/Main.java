@@ -16,7 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Scanner scanner = new Scanner(System.in);
-		Cliente eli = new Cliente("eli", "123", "elias@gmail.com", 8, "66644433321");
+		Cliente eli = new Cliente("eli", "123", "elias@gmail.com", 20, "66644433321");
 		List<Cliente> clientes = new ArrayList<>();
 		clientes.add(eli);
 		List<Compra> compras = new ArrayList<>();

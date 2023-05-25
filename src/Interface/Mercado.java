@@ -406,7 +406,6 @@ public class Mercado {
 	    		System.out.println((i+1) + ". " + produtos.get(i).getNome() + " | R$" + produtos.get(i).getPreco());
 	    	}
 	    	int opcao = scanner.nextInt();
-	    	
 	    	if(Mercado.autenticarCompra(produtos.get(opcao-1).getNome(), produtos.get(opcao-1).getMarca(), 1, compras)) {
 				
 			} else {
@@ -425,10 +424,18 @@ public class Mercado {
 		}
 	    double novoSaldo;
 		for(Cliente cliente : clientes) {
+			int i = 0;
 			if(cliente.getNome().equals(nomec) && cliente.getSenha().equals(senhac)) {
+				if(cliente.getSaldo() >= totalCompra) {
 				novoSaldo = cliente.getSaldo();
 				cliente.setSaldo(novoSaldo - totalCompra);
 				totalCompra = 0;
+				} else {
+					System.out.println("Saldo insuficiente:");
+					compras.remove(i);
+					totalCompra = 0;
+					return compras;
+				}
 			}
 		}
 	    return compras;
