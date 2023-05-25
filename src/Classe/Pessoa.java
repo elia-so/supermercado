@@ -37,6 +37,5 @@ public abstract class Pessoa {
 	// MÉTODOS
 	public abstract void consultaDados();
 	public abstract void setDados();
-	//public abstract boolean login();
 	public abstract void editarDados();
 }

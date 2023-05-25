@@ -53,8 +53,15 @@ public class Mercado {
 		System.out.print("Digite o seu email: ");
 		String email = scanner.nextLine();
 		
+		String senha = null;
 		System.out.print("Digite sua senha: ");
-		String senha  = scanner.nextLine();
+	    senha  = scanner.nextLine();
+		for(Cliente cliente : clientes) {
+			if(cliente.getSenha().equals(senha)) {
+				System.out.print("Um usuário já possui essa senha! Digite uma nova: \n");
+			    senha  = scanner.nextLine();
+			} 
+		}
 		
 		System.out.print("Digite seu saldo: ");
 		double saldo = scanner.nextDouble();
@@ -90,7 +97,12 @@ public class Mercado {
 		
 		System.out.print("Digite sua senha: ");
 		String senha  = scanner.nextLine();
-		
+        for (Vendedor vendedor : vendedores) {
+            if (vendedor.getSenha().equals(senha)) {
+				System.out.print("Um vendedor já possui essa senha! Digite uma nova: \n");
+			    senha  = scanner.nextLine();
+            }
+        }
 		Vendedor v1 = new Vendedor(nome, senha, email);
 		int codigo = codvendedor.nextInt(100);
 		if(codigo != v1.getCodigoVendedor()) {
