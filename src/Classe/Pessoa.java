@@ -38,4 +38,5 @@ public abstract class Pessoa {
 	public abstract void consultaDados();
 	public abstract void setDados();
 	public abstract void editarDados();
+	public abstract int posicao(String nome, String senha);
 }

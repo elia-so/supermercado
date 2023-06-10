@@ -34,6 +34,8 @@ public class Cliente extends Pessoa{
 	}
 	
 	// MÉTODOS
+	
+	//Consultar dados do cliente logado
 	@Override
 	public void consultaDados() {
 		System.out.printf("CPF: %-13s\n", this.getCpf());
@@ -42,25 +44,70 @@ public class Cliente extends Pessoa{
 		System.out.printf("Saldo: %-13s\n", this.getSaldo());
 		System.out.printf("Senha: %-13s\n\n", this.getSenha());
 	}
+	
+	//Cadastrar novo cliente
 	@Override
 	public void setDados() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("bem-vindo ao cadastro de cliente\n");
 		
+		System.out.print("Digite o seu cpf: ");
+		String cpf = scanner.nextLine();
+		for(int i = 0; i < Mercado.getclientes().size(); i++) {
+			while(Mercado.getclientes().get(i).getCpf().equals(cpf)) {
+				System.out.print("\nJa existe um usuario com este CPF, por favor digite outro: ");
+				cpf = scanner.nextLine();
+			}
+		}
+		
+		System.out.print("Digite o seu username: ");
+		String nome = scanner.nextLine();
+		for(int i = 0; i < Mercado.getclientes().size(); i++) {
+			while(Mercado.getclientes().get(i).getNome().equals(nome)) {
+				System.out.print("\nJa existe um usuario com este username, por favor digite outro: ");
+				nome = scanner.nextLine();
+			}
+		}
+		
+		System.out.print("Digite o seu email: ");
+		String email = scanner.nextLine();
+		for(int i = 0; i < Mercado.getclientes().size(); i++) {
+			while(Mercado.getclientes().get(i).getEmail().equals(email)) {
+				System.out.print("\nJa existe um usuario com este email, por favor digite outro: ");
+				email = scanner.nextLine();
+			}
+		}
+		
+		System.out.print("Digite sua senha: ");
+		String senha  = scanner.nextLine();
+		
+		System.out.print("Digite seu saldo: ");
+		double saldo = scanner.nextDouble();
+		
+		Cliente cliente = new Cliente(nome, senha, email, saldo, cpf);
+		Mercado.getclientes().add(cliente);
+		System.out.println("\nCliente cadastrado com sucesso!\n");
 	}
 	
+	//Editar dados do cliente logado
 	@Override
 	public void editarDados(){
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Digite sua senha pra prosseguir:");
+		System.out.println("Digite seu username para prosseguir:");
+		String nome = scanner.nextLine();
+		System.out.println("Digite sua senha para prosseguir:");
 		String senha = scanner.nextLine();
 		int position = 0;
 		for(int i = 0; i < Mercado.getclientes().size(); i++) {
-			if(Mercado.getclientes().get(i).getSenha().equals(senha)) {
+			if(Mercado.getclientes().get(i).getSenha().equals(senha) && Mercado.getclientes().get(i).getNome().equals(nome)) {
 				position = i;
+				System.out.println("------Editar seus dados------");
+				
 				System.out.print("Digite o seu cpf: ");
 				String cpf = scanner.nextLine();
 				
 				System.out.print("Digite o seu nome: ");
-				String nome = scanner.nextLine();
+				String nomes = scanner.nextLine();
 				
 				System.out.print("Digite o seu email: ");
 				String email = scanner.nextLine();
@@ -73,7 +120,7 @@ public class Cliente extends Pessoa{
 				double novo_saldo = Mercado.getclientes().get(position).getSaldo();
 				Mercado.getclientes().get(position).setCpf(cpf);
 				Mercado.getclientes().get(position).setEmail(email);
-				Mercado.getclientes().get(position).setNome(nome);
+				Mercado.getclientes().get(position).setNome(nomes);
 				Mercado.getclientes().get(position).setSaldo(novo_saldo+saldo);
 				Mercado.getclientes().get(position).setSenha(senhas);
 			} else {
@@ -81,5 +128,17 @@ public class Cliente extends Pessoa{
 				senha = scanner.nextLine();
 			}
 		}
+	}
+	
+	//Retorna a posicao do cliente na lista
+	@Override
+	public int posicao(String nome, String senha) {
+		int aux = 0;
+		for(int i = 0; i < Mercado.getclientes().size(); i++) {
+			if(Mercado.getclientes().get(i).getSenha().equals(senha) && Mercado.getclientes().get(i).getNome().equals(nome)) {
+				aux = i;
+			}
 		}
+		return aux;
+	}
 }

@@ -1,5 +1,6 @@
 package Interface;
 import java.util.List;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -40,37 +41,6 @@ public class Mercado {
 		this.compras = compras;
 	}
 	
-	//CADASTRAR CLIENTES
-	public void setClientes() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("bem-vindo ao cadastro de cliente\n");
-		System.out.print("Digite o seu cpf: ");
-		String cpf = scanner.nextLine();
-		
-		System.out.print("Digite o seu nome: ");
-		String nome = scanner.nextLine();
-		
-		System.out.print("Digite o seu email: ");
-		String email = scanner.nextLine();
-		
-		String senha = null;
-		System.out.print("Digite sua senha: ");
-	    senha  = scanner.nextLine();
-		for(Cliente cliente : clientes) {
-			if(cliente.getSenha().equals(senha)) {
-				System.out.print("Um usuário já possui essa senha! Digite uma nova: \n");
-			    senha  = scanner.nextLine();
-			} 
-		}
-		
-		System.out.print("Digite seu saldo: ");
-		double saldo = scanner.nextDouble();
-		
-		Cliente c1 = new Cliente(nome, senha, email, saldo, cpf);
-		clientes.add(c1);
-		System.out.println("\nCliente cadastrado com sucesso!\n");
-	}
-	
 	//IMPRIME OS CLIENTES NA TELA, MAS SO DEVE SER IMPRESSO SE TIVER LOGADO COMO VENDEDOR (SERÁ IMPLEMENTADO)
 	public void getClientes() {	
 		System.out.println("\t\t\t\tCLIENTES");
@@ -83,49 +53,7 @@ public class Mercado {
 		}
 		System.out.println("+-----------------------------------------------------------------------------------------------+");
 	}
-	
-	//CADASTRO DE VENDEDORES
-	public void setVendedores() {
-		Scanner scanner = new Scanner(System.in);
-		Random codvendedor = new Random();
-		System.out.println("bem-vindo ao cadastro de funcionario");
-		System.out.print("Digite o seu nome: ");
-		String nome = scanner.nextLine();
-		
-		System.out.print("Digite seu email: ");
-		String email  = scanner.nextLine();
-		
-		System.out.print("Digite sua senha: ");
-		String senha  = scanner.nextLine();
-        for (Vendedor vendedor : vendedores) {
-            if (vendedor.getSenha().equals(senha)) {
-				System.out.print("Um vendedor já possui essa senha! Digite uma nova: \n");
-			    senha  = scanner.nextLine();
-            }
-        }
-		Vendedor v1 = new Vendedor(nome, senha, email);
-		int codigo = codvendedor.nextInt(100);
-		if(codigo != v1.getCodigoVendedor()) {
-			v1.setCodigoVendedor(codigo);
-		} else {
-			codigo = codvendedor.nextInt(100);
-		}
-		
-		vendedores.add(v1);
-		System.out.println("funcionario cadastrado com sucesso! \n");
-	}
-	// IMPRIME O ARRAYLIST DE VENDEDORES
-	public void getVendedores() {	
-		System.out.println("\t\t\t\tVENDEDORES");
-		System.out.println("+---------------------------------------------------------------------------------------+");
-		System.out.println("|\tCOD\t\t|\tNOME\t\t|\tEMAIL\t\t|");
-		System.out.println("+---------------------------------------------------------------------------------------+");
-		for(int i = 0; i < vendedores.size(); i++) {
-			Vendedor v = vendedores.get(i);
-			System.out.printf("|\t%d\t|\t%-13s\t|\t%-13s\t|\n",v.getCodigoVendedor(), v.getNome(), v.getEmail());
-		}
-		System.out.println("+---------------------------------------------------------------------------------------+");
-	}
+
 	// VERIFICA SE OS PARAMETROS SAO IGUAIS AOS DO ARRAYLIST
 	public static boolean autenticarCliente(String nome, String senha, List<Cliente> clientes) {
         for (Cliente cliente : clientes) {
@@ -287,7 +215,13 @@ public class Mercado {
 			this.login();
 			break;
 		case "8":
-			this.apagarcliente();
+			int aux = 0;
+			for(Cliente cliente : clientes) {
+				if(cliente.getNome().equals(nomec) && cliente.getSenha().equals(senhac)) {
+					aux = cliente.posicao(nomec, senhac);
+				}
+			}
+			Mercado.getclientes().remove(aux);
 			this.login();
 			break;
 		default:
@@ -378,10 +312,12 @@ public class Mercado {
 
 		switch(option) {
 		case "1":
-			this.setClientes();
+			Cliente cliente = new Cliente("","","",0,"");
+			cliente.setDados();
 			break;
 		case "2":
-			this.setVendedores();
+			Vendedor vendedor = new Vendedor("","","");
+			vendedor.setDados();
 			break;
 		case "3":
 			this.login();
@@ -488,24 +424,6 @@ public class Mercado {
 		}
 		System.out.println("+-----------------------------------------------------------------------------------------------+");
 	}
-
-
-public void apagarcliente() {
-	Scanner scanner = new Scanner(System.in);
-	System.out.println("tem certeza que deseja APAGAR?");
-	System.out.println("Digite sua senha:");
-	String senha = scanner.nextLine();
-	int position = 0;
-	for(int i = 0; i < clientes.size(); i++) {
-		Cliente c1 = clientes.get(i);
-		if(senhac.equals(senha)) {
-		if(c1.getNome().equals(nomec) && c1.getSenha().equals(senhac)) {
-			position = i;
-			clientes.remove(position);
-		}
-	}
-	}
-}
 }
 
 
