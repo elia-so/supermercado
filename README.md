@@ -1,9 +1,8 @@
-# supermercado
-Projeto de POO em Java
+# supermercado Padre Cicero
 
-https://docs.google.com/document/d/150NuSfpYSWNTOuPt-Fhherjf0LMOzU7ir3sZoOoutkU/edit?usp=sharing
+Este é um projeto feito em Java utilizando-se de suas funcionalidades, métodos e conceitos como orientação a objetos, polimorfismo, herança, etc. Toda a especificação e UMLs encontram-se no pdf anexo ao projeto.
 
-Equipe: 
+Autores: 
 
 Elias Ósbony Tenório de Lima
 
