@@ -9,6 +9,7 @@ import Classe.Produto;
 import Classe.Vendedor;
 import Interface.*;
 import Repositorio.*;
+import telas.*;
 
 
 public class Main {
@@ -36,6 +37,13 @@ public class Main {
 		produtos.add(p1);produtos.add(p2);produtos.add(p3);produtos.add(p4);produtos.add(p5);produtos.add(p6);
 		
 		Mercado padrecicero = new Mercado(clientes, vendedores, produtos, compras);
+		
+		Cliente cliente = new ClienteImpl(nome, email);
+                Vendedor vendedor = new VendedorImpl(nome, email);
+                Produto produto = new ProdutoImpl(produtos, preco);
+
+                cliente.comprar(produto);
+                vendedor.vender(produto, cliente);
 		
 		//loop para menu de seleção
 		boolean loop = true;
